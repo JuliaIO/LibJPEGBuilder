@@ -1,4 +1,4 @@
-# LibJPEGBuilder2
+# LibJPEGBuilder
 
 [![Build Status](https://travis-ci.org/SimonDanisch/LibJPEGBuilder2.svg?branch=master)](https://travis-ci.org/SimonDanisch/LibJPEGBuilder2)
 
