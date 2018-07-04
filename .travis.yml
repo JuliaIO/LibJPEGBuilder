@@ -36,5 +36,5 @@ deploy:
     file: products/*
     skip_cleanup: true
     on:
-        repo: SimonDanisch/LibJPEGBuilder2
+        repo: SimonDanisch/LibJPEGBuilder
         tags: true
