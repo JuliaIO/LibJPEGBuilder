@@ -1,0 +1,40 @@
+language: julia
+os:
+  - linux
+julia:
+  - 0.6
+notifications:
+  email: false
+git:
+  depth: 99999999
+cache:
+  timeout: 1000
+  directories:
+    - downloads
+env:
+  global:
+    - BINARYBUILDER_DOWNLOADS_CACHE=downloads
+    - BINARYBUILDER_AUTOMATIC_APPLE=false
+sudo: required
+
+# Before anything else, get the latest versions of things
+before_script:
+  - julia -e 'Pkg.clone("https://github.com/JuliaPackaging/BinaryProvider.jl")'
+  - julia -e 'Pkg.clone("https://github.com/JuliaPackaging/BinaryBuilder.jl"); Pkg.build()'
+
+script:
+  - julia build_tarballs.jl
+
+
+deploy:
+    provider: releases
+    api_key:
+        # Note; this api_key is only valid for SimonDanisch/LibJPEGBuilder2; you need
+        # to make your own: https://docs.travis-ci.com/user/deployment/releases/
+        secure: SwxcpFd/ZzEo6gKOOKI+v6VWbV0qeHoUtkvbgqARSDmu1ZCu9PeS/zMLobIlsFS6XN2xKvIjqjBvn6c4nHfqCRx/w4ENcz2Xv/kVR2SOq8nUkym55PHgMW6jkA7z2jIFljaOFX6L2R4+1lfGmrxQh4ngzjtn+J8mhNEwvPC9Dzi7iYUSjpdGWODoQQVp/ixfpPvvoteTyRVmBBCQ2w8U26UF/jKMKY4hlQKlI1s0UN4GcfUXfGRP2FmlSO8TtEXal+pqhwa+uWkfSWn5wyS0iWmYPj9lwHJ/2haJ+s/MQgPEpQmFpx1c88aD7wyfCjeGx3Pa6rGz9/uNycUu92kY5A8QwZozaHYFOvhpQyFZobq6HhLbwdoWayFTDu2rEyMdTpHKvYnaZVUqSHCSn6q6GUv2cWPQOrmLsmzkdQguiQrQBPdDHzJq6+fJPoioa5PInyay4PugLXa/XlUG34D368Aa+/tgnSpdnJ4838ok948MqkAq13LGtvQsvqW/0NsXMlmdMmyus59FfjTG/nXJzaf/T1s4doNujvWg8ZwznNfrBIGcoNhY1BWpj4Tmcjh5j0Xsux/+ncO88pgT2ez64edcJGUgqOOQVJAg0wIcLbaoPCWfZ8whxOvDYoppZp2BIh6qHNJAEUVNB6ufKCtsqYazBM53/MGhVubZni9l1EI=
+    file_glob: true
+    file: products/*
+    skip_cleanup: true
+    on:
+        repo: SimonDanisch/LibJPEGBuilder2
+        tags: true
