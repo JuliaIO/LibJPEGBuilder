@@ -2,7 +2,7 @@ language: julia
 os:
   - linux
 julia:
-  - 0.6
+  - 1.0
 notifications:
   email: false
 git:
@@ -19,12 +19,10 @@ sudo: required
 
 # Before anything else, get the latest versions of things
 before_script:
-  - julia -e 'Pkg.clone("https://github.com/JuliaPackaging/BinaryProvider.jl")'
-  - julia -e 'Pkg.clone("https://github.com/JuliaPackaging/BinaryBuilder.jl"); Pkg.build()'
+  - julia -e 'using Pkg; pkg"add BinaryBuilder BinaryProvider"'
 
 script:
   - julia build_tarballs.jl
-
 
 deploy:
     provider: releases
@@ -36,5 +34,5 @@ deploy:
     file: products/*
     skip_cleanup: true
     on:
-        repo: SimonDanisch/LibJPEGBuilder
+        repo: JuliaIO/LibJPEGBuilder
         tags: true
